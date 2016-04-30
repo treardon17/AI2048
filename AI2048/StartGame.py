@@ -39,7 +39,6 @@ def updateGameState():
                 sortedTiles[pos] = valueOfPos
             except:
                 print "[-]: valueOfPos:",valueOfPos
-            print "pos: ",pos
         elif len(currentTilesInPos) == 3:
             valueOfPos = currentTilesInPos.find_by_css(".tile-merged")[0].find_by_css(".tile-inner")[0].value.encode("utf8")
             try:
@@ -55,11 +54,14 @@ def updateGameState():
         for col in range(0, len(gameState[row])):
             tileLocation = str(col+1)+"-"+str(row+1)
             gameState[row][col] = sortedTiles[tileLocation]
-            print "tileLocation: ",tileLocation
+
+# updateGameState()
+#
+# for row in gameState:
+#     print row
 
 
+def getScore():
+    return int(browser.find_by_css(".score-container").value)
 
-updateGameState()
-
-for row in gameState:
-    print row
+getScore()
