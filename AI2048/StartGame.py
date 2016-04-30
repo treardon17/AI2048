@@ -30,20 +30,36 @@ def updateGameState():
             legalPositions[str(col)+"-"+str(row)] = positionString
 
     #fill the sortedTiles map with all the tiles at their legal position (col-row)
-    for tile in allTiles:
-        for pos, classPos in legalPositions.items():
-            currentTilesInPos = tileContainer.find_by_css(classPos)
-            if len(currentTilesInPos) == 1:
-                valueOfPos = currentTilesInPos[0].find_by_css(".tile-inner")[0].value.encode("utf8")
+    for pos, classPos in legalPositions.items():
+        currentTilesInPos = tileContainer.find_by_css(classPos)
+        if len(currentTilesInPos) == 1:
+            valueOfPos = currentTilesInPos[0].find_by_css(".tile-inner")[0].value.encode("utf8")
+            try:
                 valueOfPos = int(valueOfPos)
                 sortedTiles[pos] = valueOfPos
-            elif len(currentTilesInPos) == 3:
-                valueOfPos = currentTilesInPos.find_by_css(".tile-merged")[0].find_by_css(".tile-inner")[0].value.encode("utf8")
+            except:
+                print "[-]: valueOfPos:",valueOfPos
+            print "pos: ",pos
+        elif len(currentTilesInPos) == 3:
+            valueOfPos = currentTilesInPos.find_by_css(".tile-merged")[0].find_by_css(".tile-inner")[0].value.encode("utf8")
+            try:
                 valueOfPos = int(valueOfPos)
                 sortedTiles[pos] = valueOfPos
+            except:
+                print "[-]: valueOfPos:",valueOfPos
+        else:
+            sortedTiles[pos] = 0
 
-    for row in range(1,len(gameState)):
-        for col in range(1, len(gameState[row])):
-            tileLocation = str(col)+"-"+str(row)
-            if tileLocation in sortedTiles:
-                gameState[col][row] = sortedTiles[tileLocation] 
+
+    for row in range(0,len(gameState)):
+        for col in range(0, len(gameState[row])):
+            tileLocation = str(col+1)+"-"+str(row+1)
+            gameState[row][col] = sortedTiles[tileLocation]
+            print "tileLocation: ",tileLocation
+
+
+
+updateGameState()
+
+for row in gameState:
+    print row
