@@ -1,69 +1,49 @@
 from splinter import Browser
 import os
+import re
+import pdb
 
 browser = Browser('chrome')
 currentFolderPath = os.path.dirname(os.path.abspath(__file__))
 browser.visit("file:///"+currentFolderPath+"/2048-master/index.html")
-print "executing keydown"
 
-browser.execute_script("KeyboardInputManager.moveUp()")
+"""browser.execute_script("KeyboardInputManager.moveUp()")
 browser.execute_script("KeyboardInputManager.moveLeft()")
 browser.execute_script("KeyboardInputManager.moveRight()")
 browser.execute_script("KeyboardInputManager.moveDown()")
 
+"""
 
 
+gameState = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]] #empty gameState
 
+def updateGameState():
+    tileContainer = browser.find_by_css(".tile-container")
+    allTiles = tileContainer.find_by_css(".tile")
+    sortedTiles = {}
 
+    classString = ".tile-position-"
+    legalPositions = {}
+    for col in xrange(1,5):
+        for row in xrange(1,5):
+            positionString = classString + str(col) + "-" + str(row)
+            legalPositions[str(col)+"-"+str(row)] = positionString
 
-"""browser.execute_script('\
-    var e = new Event("keydown");\
-    e.key="a";\
-    e.keyCode=e.key.charCodeAt(37);\
-    e.which=e.keyCode;\
-    e.altKey=false;\
-    e.ctrlKey=true;\
-    e.shiftKey=false;\
-    e.metaKey=false;\
-    e.bubbles=true;\
-    document.dispatchEvent(e);\
-')"""
+    #fill the sortedTiles map with all the tiles at their legal position (col-row)
+    for tile in allTiles:
+        for pos, classPos in legalPositions.items():
+            currentTilesInPos = tileContainer.find_by_css(classPos)
+            if len(currentTilesInPos) == 1:
+                valueOfPos = currentTilesInPos[0].find_by_css(".tile-inner")[0].value.encode("utf8")
+                valueOfPos = int(valueOfPos)
+                sortedTiles[pos] = valueOfPos
+            elif len(currentTilesInPos) == 3:
+                valueOfPos = currentTilesInPos.find_by_css(".tile-merged")[0].find_by_css(".tile-inner")[0].value.encode("utf8")
+                valueOfPos = int(valueOfPos)
+                sortedTiles[pos] = valueOfPos
 
-"""b.execute_script('var e = new Event("keydown"); e.key="a";e.keyCode=e.key.charCodeAt(37); e.which=e.keyCode; e.altKey=false; e.ctrlKey=true; e.shiftKey=false; e.metaKey=false; e.bubbles=true; document.dispatchEvent(e);')"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""var keyboardEvent = document.createEvent("KeyboardEvent");
-var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent" : "initKeyEvent";
-
-
-keyboardEvent[initMethod](
-                   "keydown", // event type : keydown, keyup, keypress
-                    true, // bubbles
-                    true, // cancelable
-                    window, // viewArg: should be window
-                    false, // ctrlKeyArg
-                    false, // altKeyArg
-                    false, // shiftKeyArg
-                    false, // metaKeyArg
-                    40, // keyCodeArg : unsigned long the virtual key code, else 0
-                    0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
-);
-document.dispatchEvent(keyboardEvent);"""
+    for row in range(1,len(gameState)):
+        for col in range(1, len(gameState[row])):
+            tileLocation = str(col)+"-"+str(row)
+            if tileLocation in sortedTiles:
+                gameState[col][row] = sortedTiles[tileLocation] 
