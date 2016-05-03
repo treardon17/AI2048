@@ -17,7 +17,7 @@ currentGameState = game.getGameState()
 while not agent.isTerminal(currentGameState):
     if noG:
         game.printBoard()
-        pdb.set_trace()
+        #pdb.set_trace()
 
 
     best = agent.getBest(currentGameState) #gets the best action and the maxVal
@@ -31,5 +31,5 @@ while not agent.isTerminal(currentGameState):
     if noG:
         game.printBoard()
         print "[+] Best Action:", bestAction
-        pdb.set_trace()
+        #pdb.set_trace()
     currentGameState = game.getGameState()

@@ -5,7 +5,7 @@ import random, os, util
 class Gameboard:
     def __init__(self):
         self.board = np.array([[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]])
-        random.seed()
+        random.seed(None)
         self.possibleRandomVals = [2,4]
         self.score = 0
         self.newTile = 0
