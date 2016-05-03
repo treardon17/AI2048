@@ -91,7 +91,7 @@ class Agent:
     def getBest(self, state):
         bestAction = None
         maxVal = 0
-        for action in self.actions:
+        for action in self.getLegalActions(state):
             tempVal = self.transition(state, action)  #tempVal is a tuple (nextState, action)
             if tempVal[1] >= maxVal:
                 maxVal = tempVal[1]
@@ -120,7 +120,7 @@ class Agent:
         feats["free"] = 16 - np.count_nonzero(state)
         sumMergeCount = 0
         #sumScore = 0
-        for action in self.actions:
+        for action in self.getLegalActions(state):
             things = self.transition(state, action)
             sumMergeCount += things[2]
             #sumScore += things[1]
@@ -145,4 +145,11 @@ class Agent:
             self.weights[f] = self.weights[f] + (self.alpha*difference*features[f])
 
 
-# features: number of free spaces on the board, location of the largest number, location of merged tiles, score == merged tiles
+
+    def getLegalActions(self, state):
+        legalActions = []
+        for action in self.actions:
+            if not np.array_equiv(self.transition(state, action), state):
+                legalActions.append(action)
+
+        return legalActions
