@@ -3,10 +3,12 @@ import numpy as np
 import copy
 
 
-class agent:
+class Agent:
     def __init__(self):
         self.weights = util.Counter()
-
+        self.weights["mergeCount"] = 0
+        self.weights["largestPos"] = 0
+        self.weights["free"] = 0
         self.state = np.array([[1,0,0,1],[1,0,0,0],[1,0,1,0],[1,0,1,0]])
         self.actions = ['up', 'down', 'left', 'right']
         self.currScore = 0
@@ -74,7 +76,9 @@ class agent:
     def isTerminal(self, state):
         for action in self.actions:
             newState = self.transition(state, action)
-            if (newState != state).all():
+
+            if np.array_equiv(newState, state):
+            #if (newState != state).all():
                 print "[+] Action:", action
                 self.printState(self.transition(state, action))
                 return True
@@ -87,7 +91,7 @@ class agent:
         maxVal = 0
         for action in self.actions:
             tempVal = self.transition(state, action)  #tempVal is a tuple (nextState, action)
-            if tempVal[1] > maxVal:
+            if tempVal[1] >= maxVal:
                 maxVal = tempVal[1]
                 bestAction = action
 
@@ -102,9 +106,16 @@ class agent:
         feats = util.Counter()
         oneDpos = np.argmax(state)
 
-        feats["largestPos"] = (oneDpos/4, oneDpos%4)    #(row, col)
-        feats["free"] = 16 - np.count_nonzero(state)
+        pos = (oneDpos/4, oneDpos%4)   #(row, col)
 
+        if pos == (3,3):
+            feats["largestPos"] = 50
+        elif pos[0] == 3:
+            feats["largestPos"] = 25
+        else:
+            feats["largestPos"] = 5
+
+        feats["free"] = 16 - np.count_nonzero(state)
         sumMergeCount = 0
         #sumScore = 0
         for action in self.actions:
@@ -114,7 +125,7 @@ class agent:
 
         feats["mergeCount"] = sumMergeCount
         #feats["score"] = sumScore
-
+        return feats
 
 
     def getQValue(self, state):
@@ -122,7 +133,7 @@ class agent:
 
 
 
-    def updateWeights(self, state, action, nextState, reward):
+    def updateWeights(self, state, action, reward):
         features = self.getFeatures(state)
         #the score is the reward
 
