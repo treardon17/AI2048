@@ -28,6 +28,8 @@ class Agent:
 
 
     def transition(self, state, action):
+        # will return right even though it can't go right.
+        # need to implement a legal actions list
         score = 0
         mergeCount = 0
         newState = [[],[],[],[]]
