@@ -15,9 +15,11 @@ browser.execute_script("KeyboardInputManager.moveDown()")
 """
 
 
-gameState = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]] #empty gameState
+
 
 def updateGameState():
+    gameState = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]  # empty gameState
+
     tileContainer = browser.find_by_css(".tile-container")
     allTiles = tileContainer.find_by_css(".tile")
     sortedTiles = {}
@@ -55,6 +57,8 @@ def updateGameState():
             tileLocation = str(col+1)+"-"+str(row+1)
             gameState[row][col] = sortedTiles[tileLocation]
 
+    return gameState
+
 # updateGameState()
 #
 # for row in gameState:
@@ -64,4 +68,4 @@ def updateGameState():
 def getScore():
     return int(browser.find_by_css(".score-container").value)
 
-getScore()
+#getScore()

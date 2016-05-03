@@ -25,8 +25,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/util.py" />
-        <option value="$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/reinforcement.py" />
+        <option value="$PROJECT_DIR$/util.py" />
+        <option value="$PROJECT_DIR$/reinforcement.py" />
       </list>
     </option>
   </component>
@@ -64,12 +64,19 @@
       <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
-        <subPane />
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="aiState" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
       </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AI2048" />
   </component>
   <component name="RunManager" selected="Python.reinforcement">
     <configuration default="false" name="reinforcement" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -79,12 +86,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="AIFinal" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/reinforcement.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/reinforcement.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -289,7 +296,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/util.py">
+    <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -297,7 +304,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/util.py">
+    <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
@@ -305,8 +312,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/reinforcement.py" />
-    <entry file="file://$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/util.py">
+    <entry file="file://$PROJECT_DIR$/reinforcement.py" />
+    <entry file="file://$PROJECT_DIR$/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="28" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
@@ -321,7 +328,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Documents/GitHub/ArtificialIntelligence2048/aiState/reinforcement.py">
+    <entry file="file://$PROJECT_DIR$/reinforcement.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../AI2048/StartGame.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
