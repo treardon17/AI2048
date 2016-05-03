@@ -149,7 +149,7 @@ class Agent:
     def getLegalActions(self, state):
         legalActions = []
         for action in self.actions:
-            if not np.array_equiv(self.transition(state, action), state):
+            if not np.array_equiv(self.transition(state, action)[0], state):
                 legalActions.append(action)
 
         return legalActions
