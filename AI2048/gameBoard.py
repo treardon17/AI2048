@@ -14,7 +14,7 @@ class Gameboard:
     def randomNewTile(self):
         numEmptyCells = 16 - np.count_nonzero(self.board)
 
-        posRand = random.randint(0,numEmptyCells-1)
+        posRand = random.randint(1,numEmptyCells)
 
         count = 0
         for x in range(0, 4):
