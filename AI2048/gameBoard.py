@@ -61,24 +61,24 @@ class Gameboard:
             if index == 3:
                 for y in x:
                     if y != 0:
-                        if y in newState[i]: # This lets [4,4,0,8] => [0,0,0,16]
+                        if y in newState[i] and newState[i][0] == y: # This lets [4,4,0,8] => [0,0,0,16]
                             # maybe instead of this, check the first element of newState[i] if it exists
                             # This idea should work. The same for the else statement below
                             #   However, it could be the opposite for the else (the end of the list)
-                            newState[i][newState[i].index(y)] = 2 * y
-                            score += 2 * y
-                            mergeCount += 1
+                                newState[i][newState[i].index(y)] = 2 * y
+                                score += 2 * y
+                                mergeCount += 1
                         else:
                             newState[i].insert(index, y)
             else:
                 for y in reversed(x):
                     if y != 0:
-                        if y in newState[i]:
-                            newState[i].reverse()
-                            newState[i][newState[i].index(y)] = 2 * y
-                            newState[i].reverse()
-                            score += 2 * y
-                            mergeCount += 1
+                        if y in newState[i] and newState[i][0] == y:
+                                newState[i].reverse()
+                                newState[i][newState[i].index(y)] = 2 * y
+                                newState[i].reverse()
+                                score += 2 * y
+                                mergeCount += 1
                         else:
                             newState[i].insert(index, y)
             i += 1
