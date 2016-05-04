@@ -61,7 +61,10 @@ class Gameboard:
             if index == 3:
                 for y in x:
                     if y != 0:
-                        if y in newState[i]:
+                        if y in newState[i]: # This lets [4,4,0,8] => [0,0,0,16]
+                            # maybe instead of this, check the first element of newState[i] if it exists
+                            # This idea should work. The same for the else statement below
+                            #   However, it could be the opposite for the else (the end of the list)
                             newState[i][newState[i].index(y)] = 2 * y
                             score += 2 * y
                             mergeCount += 1
