@@ -43,6 +43,7 @@ class Gameboard:
         self.randomNewTile()
         return self.board
 
+
     def move(self, action):
         # The merging doesn't work correctly. It merges multiple things at a time.
         # [4,0,4,8] => [0,0,0,16]
@@ -93,6 +94,8 @@ class Gameboard:
         else:
             self.board = np.array(newState)
             self.score += score
+
+
 
     def getScore(self):
         return self.score
