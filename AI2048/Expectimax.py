@@ -172,6 +172,23 @@ class Expectimax:
         util.notDefined("Expectimax.getBest()")
 
 
+    def value(self, state):
+        if self.isTerminal(state):
+            return -100
+
+        # if the next state is the AI turn
+        self.maxVal()
+        # else the next state will be determined by a random additionS
+        self.expVal()
+
+
+    def maxVal(self, state):
+        mVal = float("-inf")
+
+        #for child in self.getPossibleChildrenForState(state):
+
+
+
     # Copied from reinforcement. I'm pretty sure that this should work.
     def isTerminal(self, state):
         for action in self.actions:
@@ -189,10 +206,10 @@ class Expectimax:
         util.notDefined("Expetimax.isTerminal()")"""
 
 
-"""state = [[2,2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+state = [[2,2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 expectimax = Expectimax()
 print state
-print expectimax.getPossibleChildrenForState(state)"""
+print expectimax.getPossibleChildrenForState(state)
 
 
 
