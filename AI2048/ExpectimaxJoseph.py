@@ -124,12 +124,13 @@ class Expectimax:
 
     #gets the list of potential actions the computer can take
     def getLegalActions(self, state):
-        legalActions = []
+        """legalActions = []
         currentGameState = copy.deepcopy(state)
         for action in self.actions:
             if not np.array_equiv(currentGameState, self.transition(state, action)[0]):
                 legalActions.append(action)
-        return legalActions
+        return legalActions"""
+        return self.actions
 
     #gets the free positions on the gameState
     #returns tuple of zero-based (x,y) coordinates
@@ -145,7 +146,10 @@ class Expectimax:
     #state and all the legal actions at that state
     def posNewTile(self, state):
         newState = copy.deepcopy(state)
-        freePos = self.getFreePositions(newState)      #store the (x,y) coordinates
+        try:
+            freePos = self.getFreePositions(newState)      #store the (x,y) coordinates
+        except:
+            print "Stop it!"
         randomPosition = random.choice(freePos)        #get a random (x,y) pair
         randomProb = random.randint(0,100)              #get a random number between 0 and 100
 
@@ -214,6 +218,7 @@ class Expectimax:
 
 
     # Copied from reinforcement. I'm pretty sure that this should work.
+    # need to optimize the program so we need to get rid of the self.transition() call
     def isTerminal(self, state):
         for action in self.actions:
             newState = self.transition(state, action) # don't like this. This probably slows it down a lot

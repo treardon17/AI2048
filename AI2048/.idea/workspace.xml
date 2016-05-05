@@ -51,10 +51,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="gameGit.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="gameGit.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/gameGit.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1439">
+                <state relative-caret-position="-1287">
                   <caret line="65" column="29" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
                   <folding>
                     <element signature="e#140#168#0" expanded="true" />
@@ -68,10 +68,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="gamescript.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="gamescript.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/gamescript.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="272">
+                <state relative-caret-position="157">
                   <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
                   <folding />
                 </state>
@@ -85,12 +85,11 @@
           <file leaf-file-name="ExpectimaxJoseph.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/ExpectimaxJoseph.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1496">
-                  <caret line="218" column="106" selection-start-line="218" selection-start-column="106" selection-end-line="218" selection-end-column="106" />
+                <state relative-caret-position="2873">
+                  <caret line="190" column="55" selection-start-line="190" selection-start-column="17" selection-end-line="190" selection-end-column="55" />
                   <folding>
                     <element signature="e#0#13#0" expanded="true" />
                     <element signature="e#637#1255#0" expanded="false" />
-                    <marker date="1462481657220" expanded="false" signature="1298:3650" placeholder="..." />
                   </folding>
                 </state>
               </provider>
@@ -440,7 +439,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26868907" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26868907" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -498,6 +497,11 @@
           <line>152</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/ExpectimaxJoseph.py</url>
+          <line>151</line>
+          <option name="timeStamp" value="97" />
+        </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
         <breakpoint type="python-exception">
@@ -506,7 +510,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="96" />
+      <option name="time" value="98" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -695,14 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gamescript.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Expectimax.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="817">
@@ -715,7 +711,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gameGit.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1439">
+        <state relative-caret-position="-1287">
           <caret line="65" column="29" selection-start-line="65" selection-start-column="29" selection-end-line="65" selection-end-column="29" />
           <folding>
             <element signature="e#140#168#0" expanded="true" />
@@ -728,14 +724,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/gamescript.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ExpectimaxJoseph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="218" column="106" selection-start-line="218" selection-start-column="106" selection-end-line="218" selection-end-column="106" />
+        <state relative-caret-position="2873">
+          <caret line="190" column="55" selection-start-line="190" selection-start-column="17" selection-end-line="190" selection-end-column="55" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
             <element signature="e#637#1255#0" expanded="false" />
-            <marker date="1462481657220" expanded="false" signature="1298:3650" placeholder="..." />
           </folding>
         </state>
       </provider>
