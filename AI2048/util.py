@@ -1,8 +1,13 @@
-import os, pdb
+import os, pdb, random
 
 
 def notDefined(funcName):
     print "[!]", funcName, "function not defined!"
+
+def flipCoin(p):
+    r = random.random()
+    return r < p
+
 
 class Counter(dict):
     def __getitem__(self, idx):
@@ -98,7 +103,7 @@ class Counter(dict):
         #>>> a * b
         14
         """
-        sum = 0
+        sum = 0.0
         x = self
         if len(x) > len(y):
             x, y = y, x

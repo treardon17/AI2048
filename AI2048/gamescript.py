@@ -1,4 +1,4 @@
-import sys, pdb
+import sys, pdb,os
 
 from reinforcement import Agent
 
@@ -25,6 +25,9 @@ while not agent.isTerminal(currentGameState):
     best = agent.getBest(currentGameState) #gets the best action and the maxVal
     maxVal = best[0]
     bestAction = best[1]
+
+    if bestAction == 'Exit':
+        print "All done!!"
 
     agent.updateWeights(currentGameState, bestAction, maxVal)
     game.move(bestAction)

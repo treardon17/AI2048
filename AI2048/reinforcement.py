@@ -1,4 +1,4 @@
-import util, pdb
+import util, pdb, random
 import numpy as np
 import copy
 
@@ -15,9 +15,11 @@ class Agent:
         self.state = np.array([[1,0,0,1],[1,0,0,0],[1,0,1,0],[1,0,1,0]])
         self.actions = ['up', 'down', 'left', 'right']
         self.currScore = 0
+        self.mCount = 0
 
         self.gamma = 0.8
         self.alpha = 0.2
+        self.epsilon = 0.05
 
 
 
@@ -117,7 +119,6 @@ class Agent:
                 else:
                     self._is_occupied = True"""
 
-
         return (np.array(newState),score, mergeCount)
 
 
@@ -155,13 +156,13 @@ class Agent:
             if np.array_equiv(newState, state):
             #if (newState != state).all():
                 print "[+] Action:", action
-                self.printState(self.transition(state, action))
+                self.printState(newState)
                 return True
         return False
 
 
-
-    def getBest(self, state):
+    # This is probabbly incorrect
+    """def getBest(self, state):
         bestAction = None
         maxVal = 0
         for action in self.getLegalActions(state):
@@ -173,46 +174,110 @@ class Agent:
         if bestAction is None:
             return (0,"Exit")
         else:
-            return (maxVal, bestAction)
+            return (maxVal, bestAction)"""
+
+    def getBest(self, state):
+        legalActions = self.getLegalActions(state)
+        action = None
+
+        if len(legalActions) == 0:
+            return action
+        if util.flipCoin(self.epsilon):
+            return random.choice(legalActions)
+        else:
+            best = self.computeActionFromQValues(state)
+            try:
+                float(best[0])
+            except:
+                print "Stop it!"
+            return best
+
+
+    def computeActionFromQValues(self,state):
+        actions = self.getLegalActions(state)
+        if len(actions) == 0:
+            return None
+        else:
+            bestAction = None
+            max_val = 0
+            for action in actions:
+                tempVisit = self.getQValue(state, action)
+                try:
+                    if tempVisit >= max_val:
+                        bestAction = action
+                        max_val = tempVisit
+                except:
+                    print "Stop it!"
+
+            return (max_val, bestAction)
 
 
 
-    def getFeatures(self, state):
+    def getFeatures(self, transState):    # (state, score, mergeCount)
         feats = util.Counter()
-        oneDpos = np.argmax(state)
+        oneDpos = np.argmax(transState[0])
 
         pos = (oneDpos/4, oneDpos%4)   #(row, col)
 
         if pos == (3,3):
-            feats["largestPos"] = 50
+            feats["largestPos"] = 50.0
         elif pos[0] == 3:
-            feats["largestPos"] = 25
+            feats["largestPos"] = 25.0
         else:
-            feats["largestPos"] = 5
+            feats["largestPos"] = 5.0
 
-        feats["free"] = 16 - np.count_nonzero(state)
-        sumMergeCount = 0
+        feats["free"] = float(16 - np.count_nonzero(transState[0]))
+        #sumMergeCount = 0
         #sumScore = 0
-        for action in self.getLegalActions(state):
-            things = self.transition(state, action)
-            sumMergeCount += things[2]
+        #for action in self.getLegalActions(transState[0]):
+        #    things = self.transition(transState[0], action)
+        #    sumMergeCount += things[2]
             #sumScore += things[1]
 
-        feats["mergeCount"] = sumMergeCount
+        try:
+            u = float(transState[1])
+        except:
+            print "Stop it!"
+
+        feats["score"] = transState[1]
+
+        float_thing = transState[2]
+        feats["mergeCount"] = float(float_thing)
         #feats["score"] = sumScore
         return feats
 
 
-    def getQValue(self, state):
-        return self.weights.__mul__(self.getFeatures(state))
+    def getQValue(self, state, action):
+        newState = self.transition(state, action)
+        self.mCount = newState[2]
+        try:
+            float(newState[1])
+        except:
+            print "Stop it!"
+        feats = self.getFeatures(newState)
+        dot = self.weights.__mul__(feats)
+        return dot
 
 
 
     def updateWeights(self, state, action, reward):
-        features = self.getFeatures(state)
+        try:
+            float(reward)
+        except:
+            print "Stop it!"
+
+        features = self.getFeatures((state,reward, self.mCount))
         #the score is the reward
 
-        difference = (reward + self.gamma*self.getBest(state)[0]) - self.getQValue(state)
+        try:
+            maxVal = float(self.getBest(state)[0])
+            QVal = float(self.getQValue(state, action))
+        except:
+            maxVal = 0
+            QVal = 0
+            print "Stop it!"
+
+        difference = (reward + self.gamma*maxVal) - QVal
 
         for f in features.keys():
             self.weights[f] = self.weights[f] + (self.alpha*difference*features[f])
