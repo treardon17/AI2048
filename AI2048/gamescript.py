@@ -1,6 +1,7 @@
 import sys, pdb,os
 
-from reinforcement import Agent
+from reinforcement import Reinforcement
+from Expectimax import Expectimax
 
 if "--no-graphics" in sys.argv:
     #from gameBoard import Gameboard
@@ -13,7 +14,8 @@ else:
     game = GameInteraction()
     noG = False
 
-agent = Agent()
+#agent = Reinforcement()
+agent = Expectimax()
 currentGameState = game.getGameState()
 
 while not agent.isTerminal(currentGameState):
@@ -29,9 +31,9 @@ while not agent.isTerminal(currentGameState):
     if bestAction == 'Exit':
         print "All done!!"
 
-    agent.updateWeights(currentGameState, bestAction, maxVal)
+    #agent.updateWeights(currentGameState, bestAction, maxVal)
     game.move(bestAction)
-    agent.currScore = game.getScore()
+    agent.score = game.getScore()
 
     if noG:
         game.printBoard()

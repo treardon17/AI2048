@@ -1,6 +1,6 @@
 import random
 import numpy as np
-import copy
+import copy, util
 import pdb
 
 class Expectimax:
@@ -14,6 +14,7 @@ class Expectimax:
         self.actions = ["up","down","left","right"]
         self.OFFSETS = {'up': (1, 0), 'down': (-1, 0), 'left': (0, 1), 'right': (0, -1)}
 
+    # I don't think we need this. This contains self._grid, and that is not in this class
     def __str__(self):
         """
         Return a string representation of the grid
@@ -42,7 +43,8 @@ class Expectimax:
 
         return result
 
-    def move(self, state, action):
+
+    def transition(self, state, action):
         score = 0
         mergeCount = 0
         offset = self.OFFSETS[action]
@@ -105,7 +107,7 @@ class Expectimax:
                 for col in range(4):
                     newState[row][col] = temp_grid[row][4 -1 -col]
 
-        return np.array(newState) #resulting grid from move
+        return np.array(newState) #resulting grid from transition
 
     #gets the specified tile from state
     def get_tile(self, state, row, col):
@@ -119,7 +121,7 @@ class Expectimax:
         legalActions = []
         currentGameState = copy.deepcopy(state)
         for action in self.actions:
-            if not np.array_equiv(currentGameState, self.move(state, action)):
+            if not np.array_equiv(currentGameState, self.transition(state, action)):
                 legalActions.append(action)
         return legalActions
 
@@ -142,7 +144,7 @@ class Expectimax:
 
         #get the possible states from the legal actions
         for action in legalActionsForState:
-            children.append([self.move(state, action), []])
+            children.append([self.transition(state, action), []])
 
         #probability % of getting a 2 (probability of getting a 4 is 10%)
         probabilityOfGetting2 = 90
@@ -166,11 +168,33 @@ class Expectimax:
         return children
 
 
+    def getBest(self, state):
+        util.notDefined("Expectimax.getBest()")
 
-state = [[2,2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+
+    # Copied from reinforcement. I'm pretty sure that this should work.
+    def isTerminal(self, state):
+        for action in self.actions:
+            newState = self.transition(state, action)
+
+            if np.array_equiv(newState, state):
+                # if (newState != state).all():
+                print "[+] Action:", action
+                self.printState(newState)
+                return True
+        return False
+
+    """def isTerminal(self, state):
+        # Think we can copy paste this from the other one.
+        util.notDefined("Expetimax.isTerminal()")"""
+
+
+"""state = [[2,2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 expectimax = Expectimax()
 print state
-print expectimax.getPossibleChildrenForState(state)
+print expectimax.getPossibleChildrenForState(state)"""
+
+
 
 
 

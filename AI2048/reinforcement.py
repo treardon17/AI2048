@@ -3,7 +3,7 @@ import numpy as np
 import copy
 
 
-class Agent:
+class Reinforcement:
     def __init__(self):
         self.weights = util.Counter()
         self.weights["mergeCount"] = 0
