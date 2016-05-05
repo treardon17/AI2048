@@ -17,6 +17,11 @@ agent = Agent()
 currentGameState = game.getGameState()
 
 while not agent.isTerminal(currentGameState):
+    #if noG:
+        #game.printBoard()
+        #pdb.set_trace()
+
+
     best = agent.getBest(currentGameState) #gets the best action and the maxVal
     maxVal = best[0]
     bestAction = best[1]
@@ -25,6 +30,8 @@ while not agent.isTerminal(currentGameState):
     game.move(bestAction)
     agent.currScore = game.getScore()
 
+    if noG:
+        game.printBoard()
+        print "[+] Best Action:", bestAction
+        #pdb.set_trace()
     currentGameState = game.getGameState()
-
-print currentGameState

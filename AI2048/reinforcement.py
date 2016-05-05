@@ -37,6 +37,7 @@ class Agent:
         mergeCount = 0
         offset = self.OFFSETS[action]
         temp_grid = []
+        newState =[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
             
         # Up
         if action == 'up':
@@ -46,13 +47,14 @@ class Agent:
                 for this_col in range(4):
                     temp_list.append(state[start][row])
                     start += offset[0]
-                temp_list, temp_score, temp_mCount = self.merge(temp_list)
+                temp = self.merge(temp_list)
+                temp_list, temp_score, temp_mCount = temp[0], temp[1], temp[2]
                 score += temp_score
                 mergeCount += temp_mCount
                 temp_grid.append(temp_list)
-            """for row in range(4):
+            for row in range(4):
                 for col in range(4):
-                    self._grid[row][col] = temp_grid[col][row]"""
+                    newState[row][col] = temp_grid[col][row]
         
         # Down
         elif action == 'down':
@@ -62,13 +64,14 @@ class Agent:
                 for this_col in range(4):
                     temp_list.append(state[start][row])
                     start += offset[0]
-                temp_list, temp_score, temp_mCount = self.merge(temp_list)
+                temp = self.merge(temp_list)
+                temp_list, temp_score, temp_mCount = temp[0], temp[1], temp[2]
                 score += temp_score
                 mergeCount += temp_mCount
                 temp_grid.append(temp_list)
-            """for row in range(4):
+            for row in range(4):
                 for col in range(4):
-                    self._grid[row][col] = temp_grid[col][4 -1 -row]"""
+                    newState[row][col] = temp_grid[col][4 -1 -row]
         
         # Left
         elif action == 'left':
@@ -78,13 +81,14 @@ class Agent:
                 for this_row in range(4):
                     temp_list.append(state[col][start])
                     start += offset[1]
-                temp_list, temp_score, temp_mCount = self.merge(temp_list)
+                temp = self.merge(temp_list)
+                temp_list, temp_score, temp_mCount = temp[0], temp[1], temp[2]
                 score += temp_score
                 mergeCount += temp_mCount
                 temp_grid.append(temp_list)
-            """for row in range(4):
+            for row in range(4):
                 for col in range(4):
-                    self._grid[row][col] = temp_grid[row][col]"""
+                    newState[row][col] = temp_grid[row][col]
 
         # Right                    
         elif action == 'right':
@@ -94,13 +98,14 @@ class Agent:
                 for this_row in range(4):
                     temp_list.append(state[col][start])
                     start += offset[1]
-                temp_list, temp_score, temp_mCount = self.merge(temp_list)
+                temp = self.merge(temp_list)
+                temp_list, temp_score, temp_mCount = temp[0], temp[1], temp[2]
                 score += temp_score
                 mergeCount += temp_mCount
                 temp_grid.append(temp_list)
-            """for row in range(4):
+            for row in range(4):
                 for col in range(4):
-                    self._grid[row][col] = temp_grid[row][4 -1 -col]"""
+                    newState[row][col] = temp_grid[row][4 -1 -col]
         
         """total_num = 1
         for value in self._grid:
@@ -112,7 +117,8 @@ class Agent:
                 else:
                     self._is_occupied = True"""
 
-        return (np.array(temp_grid),score, mergeCount)
+
+        return (np.array(newState),score, mergeCount)
 
 
 
@@ -132,10 +138,11 @@ class Agent:
                 last_index += 1
 
         for key in range(length - 1):
-            if result[key] is result[key + 1]:
+            if result[key] == result[key + 1]:
                 result[key] = result[key] * 2
                 score += result[key]
-                mergeCount += 1
+                if result[key] != 0:
+                    mergeCount += 1
                 result.pop(key + 1)
                 result.append(0)
         return (result, score, mergeCount)
@@ -215,7 +222,8 @@ class Agent:
     def getLegalActions(self, state):
         legalActions = []
         for action in self.actions:
-            if not np.array_equiv(self.transition(state, action)[0], state):
+            newState = self.transition(state, action)[0]
+            if not np.array_equiv(newState, state):
                 legalActions.append(action)
 
         return legalActions

@@ -63,7 +63,7 @@ class TwentyFortyEight:
                 last_index += 1
 
         for key in range(length - 1):
-            if result[key] is result[key + 1]:
+            if result[key] == result[key + 1]:
                 result[key] = result[key] * 2
                 self.score += result[key]
                 result.pop(key + 1)
@@ -92,7 +92,7 @@ class TwentyFortyEight:
         """
         offset = OFFSETS[action]
         temp_grid = []
-            
+
         # Up
         if action == 'up':
             for row in range(self._grid_width):
@@ -106,7 +106,7 @@ class TwentyFortyEight:
             for row in range(self._grid_height):
                 for col in range(self._grid_width):
                     self._grid[row][col] = temp_grid[col][row]
-        
+
         # Down
         elif action == 'down':
             for row in range(self._grid_width):
@@ -120,7 +120,7 @@ class TwentyFortyEight:
             for row in range(self._grid_height):
                 for col in range(self._grid_width):
                     self._grid[row][col] = temp_grid[col][self._grid_height -1 -row]
-        
+
         # Left
         elif action == 'left':
             for col in range(self._grid_height):
@@ -134,8 +134,8 @@ class TwentyFortyEight:
             for row in range(self._grid_height):
                 for col in range(self._grid_width):
                     self._grid[row][col] = temp_grid[row][col]
-                    
-        # Right                    
+
+        # Right
         elif action == 'right':
             for col in range(self._grid_height):
                 start = self._grid_width -1
@@ -148,7 +148,7 @@ class TwentyFortyEight:
             for row in range(self._grid_height):
                 for col in range(self._grid_width):
                     self._grid[row][col] = temp_grid[row][self._grid_width -1 -col]
-        
+
         total_num = 1
         for value in self._grid:
             for val_el in value:
@@ -158,7 +158,7 @@ class TwentyFortyEight:
                     break
                 else:
                     self._is_occupied = True
-                    
+
         if self._is_changed or not self._is_occupied:
             self.new_tile()
             self._is_change = False
