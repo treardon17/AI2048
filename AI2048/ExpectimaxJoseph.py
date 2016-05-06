@@ -222,7 +222,27 @@ class Expectimax:
 
     # Copied from reinforcement. I'm pretty sure that this should work.
     # need to optimize the program so we need to get rid of the self.transition() call
+
     def isTerminal(self, state):
+        numFree = self.getFreePositions(state)
+        if numFree > 0:
+            return False
+        else:
+            for x in range(4):
+                for y in range(4):
+                    currPos = (x, y)
+                    otherPositions = [(x, y + 1), (x, y - 1), (x - 1, y), (x + 1, y)]
+                    for position in otherPositions:
+                        try:
+                            if state[currPos[0]][state[currPos[1]]] == state[position[0]][position[1]]:
+                                return False
+                        except:
+                            i = 0  # super hacky... Joseph told me to do it.
+        return True
+
+
+
+    """def isTerminal(self, state):
         for action in self.actions:
             newState = self.transition(state, action) # don't like this. This probably slows it down a lot
 
@@ -233,7 +253,7 @@ class Expectimax:
                 return True
         return False
 
-    """def isTerminal(self, state):
+    def isTerminal(self, state):
         # Think we can copy paste this from the other one.
         util.notDefined("Expetimax.isTerminal()")"""
 
