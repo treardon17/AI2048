@@ -216,7 +216,7 @@ class Expectimax:
                     otherPositions = [(x,y+1),(x,y-1),(x-1,y),(x+1,y)]
                     for position in otherPositions:
                         try:
-                            if state[currPos[0]][state[currPos[1]] == state[position[0]][position[1]]:
+                            if state[currPos[0]][state[currPos[1]]] == state[position[0]][position[1]]:
                                 return False
                         except:
                             i = 0 #super hacky... Joseph told me to do it.

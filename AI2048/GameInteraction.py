@@ -63,9 +63,6 @@ class GameInteraction:
         except:
             pdb.set_trace()
 
-
-        for row in gameState:
-            print row
         return np.array(gameState)
 
     def getScore(self):

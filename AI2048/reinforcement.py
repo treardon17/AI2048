@@ -150,15 +150,21 @@ class Reinforcement:
 
 
     def isTerminal(self, state):
-        for action in self.actions:
-            newState = self.transition(state, action)
-
-            if np.array_equiv(newState, state):
-            #if (newState != state).all():
-                print "[+] Action:", action
-                self.printState(newState)
-                return True
-        return False
+        numFree = self.getFreePositions(state)
+        if len(numFree) > 0:
+            return False
+        else:
+            for x in range(3):
+                for y in range(3):
+                    if state[x][y] == state[x+1][y]:
+                        return False
+                    if state[x][y] == state[x-1][y]:
+                        return False
+                    if state[x][y] == state[x][y+1]:
+                        return False
+                    if state[x][y] == state[x][y-1]:
+                        return False
+        return True
 
 
     # This is probabbly incorrect
