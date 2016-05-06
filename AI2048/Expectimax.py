@@ -205,6 +205,24 @@ class Expectimax:
         # Think we can copy paste this from the other one.
         util.notDefined("Expetimax.isTerminal()")"""
 
+    def isTerminal2(self, state):
+        numFree = self.getFreePositions()
+        if numFree > 0:
+            return False
+        else:
+            for x in range(4):
+                for y in range(4):
+                    currPos = (x,y)
+                    otherPositions = [(x,y+1),(x,y-1),(x-1,y),(x+1,y)]
+                    for position in otherPositions:
+                        try:
+                            if state[currPos[0]][state[currPos[1]] == state[position[0]][position[1]]:
+                                return False
+                        except:
+                            i = 0 #super hacky... Joseph told me to do it.
+        return True
+
+
 
 state = [[2,2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
 expectimax = Expectimax()
