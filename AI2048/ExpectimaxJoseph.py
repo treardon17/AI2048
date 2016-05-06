@@ -146,26 +146,27 @@ class Expectimax:
     #state and all the legal actions at that state
     def posNewTile(self, state):
         newState = copy.deepcopy(state)
-        try:
-            freePos = self.getFreePositions(newState)      #store the (x,y) coordinates
 
+        freePos = self.getFreePositions(newState)      #store the (x,y) coordinates
+
+        if len(freePos) != 0:
             randomPosition = random.choice(freePos)        #get a random (x,y) pair
             randomProb = random.randint(0,100) #get a random number between 0 and 100
-        except:
-            randomProb = 0
-            print "Stop it!"
 
-        #get the value for the new tile
-        newTileValue = 0
-        if randomProb <= 90:
-            newTileValue = 2
+            #get the value for the new tile
+            newTileValue = 0
+            if randomProb <= 90:
+                newTileValue = 2
+            else:
+                newTileValue = 4
+
+            #assign the new tile value to the random position
+            newState[randomPosition[0]][randomPosition[1]] = newTileValue
+
+            return newState
         else:
-            newTileValue = 4
+            return state
 
-        #assign the new tile value to the random position
-        newState[randomPosition[0]][randomPosition[1]] = newTileValue
-
-        return newState
 
 
     #def getBest(self, state):
