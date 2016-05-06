@@ -148,10 +148,12 @@ class Expectimax:
         newState = copy.deepcopy(state)
         try:
             freePos = self.getFreePositions(newState)      #store the (x,y) coordinates
+
+            randomPosition = random.choice(freePos)        #get a random (x,y) pair
+            randomProb = random.randint(0,100) #get a random number between 0 and 100
         except:
+            randomProb = 0
             print "Stop it!"
-        randomPosition = random.choice(freePos)        #get a random (x,y) pair
-        randomProb = random.randint(0,100)              #get a random number between 0 and 100
 
         #get the value for the new tile
         newTileValue = 0
