@@ -2,8 +2,8 @@ import sys, pdb,os
 import numpy as np
 
 #from reinforcement import Reinforcement
-#from Expectimax import Expectimax
-from ExpectimaxJoseph import Expectimax
+from Expectimax import Expectimax
+
 
 if "--no-graphics" in sys.argv:
     #from gameBoard import Gameboard
@@ -48,4 +48,6 @@ while not agent.isTerminal(currentGameState):
         #pdb.set_trace()
     currentGameState = game.getGameState()
     if np.array_equiv(lastGameState, currentGameState):
-        print "hmmmS"
+        # pdb.set_trace()
+        print "hmmm"
+

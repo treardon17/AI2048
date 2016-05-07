@@ -3,15 +3,17 @@ import numpy as np
 import copy, util
 import pdb
 
+
 class Expectimax:
 
     def __init__(self):
-        self.score = 0
+        #self.score = 0
+        self.depth = 6
         self.UP = 1
         self.DOWN = 2
         self.LEFT = 3
         self.RIGHT = 4
-        self.actions = ["up","down","left","right"]
+        self.actions = ["down","up","left","right"]
         self.OFFSETS = {'up': (1, 0), 'down': (-1, 0), 'left': (0, 1), 'right': (0, -1)}
 
     # I don't think we need this. This contains self._grid, and that is not in this class
@@ -28,6 +30,7 @@ class Expectimax:
         length = len(line)
         result = [0] * length
         last_index = 0
+        score = 0
 
         for current_index in range(length):
             if line[current_index] != 0:
@@ -37,12 +40,102 @@ class Expectimax:
         for key in range(length - 1):
             if result[key] == result[key + 1]:
                 result[key] = result[key] * 2
-                self.score += result[key]
+                score += result[key]
                 result.pop(key + 1)
                 result.append(0)
 
-        return result
+        return (result, score)
 
+
+    def getMoreScore(self, state, score):
+        newState = np.array(state)
+        maxVals = []
+        #score = 0.25*score
+        newState = np.fliplr(newState)
+        newState = np.array([newState[3], newState[2], newState[1], newState[0]])
+
+
+
+        #for x in range(3):
+        for x in range(1):
+            pos = np.argmax(newState)
+            maxVals.append((3-(pos % 4), 3-(pos / 4)))
+            newState[pos/4][pos%4] = 0
+
+        newState = np.array(state)
+        # Tyler thinks this works
+        maxPos = maxVals[0]
+        for i in range(len(maxVals)):
+            maxPos = maxVals[i]
+            maxVal = newState[maxPos[0]][maxPos[1]]
+            if maxPos == (3, 3):
+                score += 50000*maxVal
+            #elif maxPos[0] == 3-i or maxPos[1] == 3-i:
+            #    score += 0.5*maxVal
+
+            # Tyler doesn't think we should do this
+            #else:
+            #    score += 0.1* maxVal
+
+        #score += 10*self.countMerge(state)
+
+        #SCORE_LOST_PENALTY = 200000.0
+        SCORE_MONOTONICITY_WEIGHT = 47.0
+        SCORE_SUM_POWER = 3.5
+        SCORE_SUM_WEIGHT = 11.0
+        SCORE_MERGES_WEIGHT = 700.0
+        SCORE_EMPTY_WEIGHT = 270.0
+
+        empty = self.getFreePositions(state)
+        merges = self.countMerge(state)
+        tileInformation = self.tileInfo(state) #sumOfTiles, monotonicityLeft, monotonicityRight
+        sumOfTiles = tileInformation[0]
+        monotonicity_left = tileInformation[1]
+        monotonicity_right = tileInformation[2]
+
+        #score = SCORE_LOST_PENALTY + SCORE_EMPTY_WEIGHT * len(empty) + \
+                #SCORE_MERGES_WEIGHT * merges - SCORE_MONOTONICITY_WEIGHT * \
+               # min(monotonicity_left, monotonicity_right) - SCORE_SUM_WEIGHT * sumOfTiles
+
+        score = SCORE_EMPTY_WEIGHT * len(empty) + \
+                SCORE_MERGES_WEIGHT * merges - SCORE_MONOTONICITY_WEIGHT * \
+                min(monotonicity_left, monotonicity_right) - SCORE_SUM_WEIGHT * sumOfTiles
+
+
+        return score
+
+    def tileInfo(self, state):
+        SCORE_MONOTONICITY_POWER = 4.0
+        sumOfTiles = 0
+        monotonicityLeft = 0
+        monotonicityRight = 0
+        for row in range(4):
+            for col in range(4):
+                sumOfTiles += state[row][col]
+                if row == 3 or col == 3:
+                    continue
+                else:
+                    if state[row][col] > state[row][col+1]:
+                        monotonicityLeft = pow(state[row][col], SCORE_MONOTONICITY_POWER) - pow(state[row][col+1], SCORE_MONOTONICITY_POWER)
+                    else:
+                        monotonicityRight =  pow(state[row][col+1], SCORE_MONOTONICITY_POWER) - pow(state[row][col], SCORE_MONOTONICITY_POWER)
+
+        return (sumOfTiles, monotonicityLeft, monotonicityRight)
+
+
+    def countMerge(self, state):
+        merges = 0
+        for x in range(3):
+            for y in range(3):
+                if state[x][y] == state[x + 1][y]:
+                    merges += 1
+                if state[x][y] == state[x - 1][y]:
+                    merges += 1
+                if state[x][y] == state[x][y + 1]:
+                    merges += 1
+                if state[x][y] == state[x][y - 1]:
+                    merges += 1
+        return merges
 
     def transition(self, state, action):
         score = 0
@@ -60,7 +153,8 @@ class Expectimax:
                     temp_list.append(state[start][row])
                     start += offset[0]
                 temp = self.merge(temp_list)
-                temp_grid.append(temp)
+                score += temp[1]
+                temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
                     newState[row][col] = temp_grid[col][row]
@@ -74,7 +168,8 @@ class Expectimax:
                     temp_list.append(state[start][row])
                     start += offset[0]
                 temp = self.merge(temp_list)
-                temp_grid.append(temp)
+                score += temp[1]
+                temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
                     newState[row][col] = temp_grid[col][4 -1 -row]
@@ -88,7 +183,8 @@ class Expectimax:
                     temp_list.append(state[col][start])
                     start += offset[1]
                 temp = self.merge(temp_list)
-                temp_grid.append(temp)
+                score += temp[1]
+                temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
                     newState[row][col] = temp_grid[row][col]
@@ -102,12 +198,18 @@ class Expectimax:
                     temp_list.append(state[col][start])
                     start += offset[1]
                 temp = self.merge(temp_list)
-                temp_grid.append(temp)
+                score += temp[1]
+                temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
                     newState[row][col] = temp_grid[row][4 -1 -col]
 
-        return np.array(newState) #resulting grid from transition
+        #score = self.getMoreScore(newState, score)
+
+        if np.array_equiv(state, newState):
+            score = float("-inf")
+
+        return (newState, score) #resulting grid from transition
 
     #gets the specified tile from state
     def get_tile(self, state, row, col):
@@ -118,12 +220,13 @@ class Expectimax:
 
     #gets the list of potential actions the computer can take
     def getLegalActions(self, state):
-        legalActions = []
+        """legalActions = []
         currentGameState = copy.deepcopy(state)
         for action in self.actions:
-            if not np.array_equiv(currentGameState, self.transition(state, action)):
+            if not np.array_equiv(currentGameState, self.transition(state, action)[0]):
                 legalActions.append(action)
-        return legalActions
+        return legalActions"""
+        return self.actions
 
     #gets the free positions on the gameState
     #returns tuple of zero-based (x,y) coordinates
@@ -137,100 +240,89 @@ class Expectimax:
 
     #returns a list of gameState children for a given
     #state and all the legal actions at that state
-    def getPossibleChildrenForState(self, state):
-        children = []
-        #get the legal actions for the current state
-        legalActionsForState = self.getLegalActions(state)
+    def posNewTile(self, state):
+        newState = copy.deepcopy(state)
 
-        #get the possible states from the legal actions
-        for action in legalActionsForState:
-            children.append([self.transition(state, action), []])
+        freePos = self.getFreePositions(newState)      #store the (x,y) coordinates
 
-        #probability % of getting a 2 (probability of getting a 4 is 10%)
-        probabilityOfGetting2 = 90
-
-        #get the free positions for each child
-        for child in children:
-            child[1] = self.getFreePositions(child[0])      #store the (x,y) coordinates
-            randomPosition = random.choice(child[1])        #get a random (x,y) pair
-            randomProb = random.randint(0,100)              #get a random number between 0 and 100
+        if len(freePos) != 0:
+            randomPosition = random.choice(freePos)        #get a random (x,y) pair
+            randomProb = random.randint(0,100) #get a random number between 0 and 100
 
             #get the value for the new tile
             newTileValue = 0
-            if randomProb <= probabilityOfGetting2:
+            if randomProb <= 90:
                 newTileValue = 2
             else:
                 newTileValue = 4
 
             #assign the new tile value to the random position
-            child[0][randomPosition[0]][randomPosition[1]] = newTileValue
+            newState[randomPosition[0]][randomPosition[1]] = newTileValue
 
-        return children
-
-
-    def getBest(self, state):
-        util.notDefined("Expectimax.getBest()")
+            return newState
+        else:
+            return state
 
 
-    def value(self, state):
-        if self.isTerminal(state):
-            return -100
+
+    #def getBest(self, state):
+    #    util.notDefined("Expectimax.getBest()")
+
+
+    def value(self, depth, state):
+        if self.isTerminal(state) or depth == self.depth * 2:
+            return (0, None)
 
         # if the next state is the AI turn
-        self.maxVal()
-        # else the next state will be determined by a random additionS
-        self.expVal()
+        if depth % 2 == 0:
+            return self.maxVal(depth, state)
+        # else the next state will be determined by a random addition
+        else:
+            return self.expVal(depth, state)
 
 
-    def maxVal(self, state):
+    def maxVal(self, depth, state):
         mVal = float("-inf")
+        bestAction = None
 
-        #for child in self.getPossibleChildrenForState(state):
+        for action in self.getLegalActions(state):
+            child = self.transition(state, action)  # (newState, stateScore)
+            childScore = self.value((depth + 1), child[0])[0]
+            if childScore > mVal:
+                mVal = child[1]
+                bestAction = action
+
+        return (mVal, bestAction)
 
 
 
-    # Copied from reinforcement. I'm pretty sure that this should work.
+    def expVal(self, depth, state):
+        p = 1 / float(len(self.getLegalActions(state)))
+        newState = self.posNewTile(state)
+        childScore = self.value((depth + 1), newState)[0]
+        v = p * childScore
+
+        return (childScore, None, newState)
+
+    def getBest(self, state):
+        return self.value(0, state)[1]   # This will be the best action returned from maxVal or expVal
+
     def isTerminal(self, state):
-        for action in self.actions:
-            newState = self.transition(state, action)
-
-            if np.array_equiv(newState, state):
-                # if (newState != state).all():
-                print "[+] Action:", action
-                self.printState(newState)
-                return True
-        return False
-
-    """def isTerminal(self, state):
-        # Think we can copy paste this from the other one.
-        util.notDefined("Expetimax.isTerminal()")"""
-
-    def isTerminal2(self, state):
-        numFree = self.getFreePositions()
-        if numFree > 0:
+        numFree = self.getFreePositions(state)
+        if len(numFree) > 0:
             return False
         else:
-            for x in range(4):
-                for y in range(4):
-                    currPos = (x,y)
-                    otherPositions = [(x,y+1),(x,y-1),(x-1,y),(x+1,y)]
-                    for position in otherPositions:
-                        try:
-                            if state[currPos[0]][state[currPos[1]]] == state[position[0]][position[1]]:
-                                return False
-                        except:
-                            i = 0 #super hacky... Joseph told me to do it.
+            for x in range(3):
+                for y in range(3):
+                    if state[x][y] == state[x+1][y]:
+                        return False
+                    if state[x][y] == state[x-1][y]:
+                        return False
+                    if state[x][y] == state[x][y+1]:
+                        return False
+                    if state[x][y] == state[x][y-1]:
+                        return False
         return True
-
-
-
-state = [[2,2,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-expectimax = Expectimax()
-print state
-print expectimax.getPossibleChildrenForState(state)
-
-
-
 
 
 #endOfFile

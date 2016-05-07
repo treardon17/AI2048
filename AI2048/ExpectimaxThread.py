@@ -13,7 +13,7 @@ class Expectimax:
         self.DOWN = 2
         self.LEFT = 3
         self.RIGHT = 4
-        self.actions = ["up","down","left","right"]
+        self.actions = ["down","up","left","right"]
         self.OFFSETS = {'up': (1, 0), 'down': (-1, 0), 'left': (0, 1), 'right': (0, -1)}
 
     # I don't think we need this. This contains self._grid, and that is not in this class
@@ -50,6 +50,7 @@ class Expectimax:
     def getMoreScore(self, state, score):
         newState = np.array(state)
         maxVals = []
+        score = 0.25*score
         for x in range(3):
             pos = np.argmax(newState)
             maxVals.append((pos / 4, pos % 4))
@@ -66,7 +67,6 @@ class Expectimax:
                 score += 0.5*maxVal
             else:
                 score += 0.1* maxVal
-
 
         score += 10*self.countMerge(state)
         return score
@@ -102,7 +102,7 @@ class Expectimax:
                     temp_list.append(state[start][row])
                     start += offset[0]
                 temp = self.merge(temp_list)
-                #score += temp[1]
+                score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -117,7 +117,7 @@ class Expectimax:
                     temp_list.append(state[start][row])
                     start += offset[0]
                 temp = self.merge(temp_list)
-                #score += temp[1]
+                score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -132,7 +132,7 @@ class Expectimax:
                     temp_list.append(state[col][start])
                     start += offset[1]
                 temp = self.merge(temp_list)
-                #score += temp[1]
+                score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -147,7 +147,7 @@ class Expectimax:
                     temp_list.append(state[col][start])
                     start += offset[1]
                 temp = self.merge(temp_list)
-                #score += temp[1]
+                score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -262,12 +262,12 @@ class Expectimax:
                 for y in range(3):
                     if state[x][y] == state[x+1][y]:
                         return False
-                    if state[x][y] == state[x-1][y]:
-                        return False
+                    #if state[x][y] == state[x-1][y]:
+                    #    return False
                     if state[x][y] == state[x][y+1]:
                         return False
-                    if state[x][y] == state[x][y-1]:
-                        return False
+                    #if state[x][y] == state[x][y-1]:
+                    #    return False
         return True
 
 
