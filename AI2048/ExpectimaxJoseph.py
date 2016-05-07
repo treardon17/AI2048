@@ -113,7 +113,19 @@ class Expectimax:
                 for col in range(4):
                     newState[row][col] = temp_grid[row][4 -1 -col]
 
-        return (np.array(newState), score) #resulting grid from transition
+        newState = np.array(newState)
+        maxPos = np.argmax(newState)
+
+        pos = (maxPos/4, maxPos%4)
+
+        if pos == (3, 3):
+            score += 20.0*newState[pos[0]][pos[1]]
+        elif pos[0] == 3 or pos[1] == 3:
+            score += 10.0*newState[pos[0]][pos[1]]
+        else:
+            score += 5.0*newState[pos[0]][pos[1]]
+
+        return (newState, score) #resulting grid from transition
 
     #gets the specified tile from state
     def get_tile(self, state, row, col):
