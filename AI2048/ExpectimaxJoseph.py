@@ -46,6 +46,45 @@ class Expectimax:
         return (result, score)
 
 
+    def getMoreScore(self, state, score):
+        newState = np.array(state)
+        maxVals = []
+        for x in range(3):
+            pos = np.argmax(newState)
+            maxVals.append((pos / 4, pos % 4))
+            newState[pos/4][pos%4] = 0
+
+        # Tyler thinks this works
+        maxPos = maxVals[0]
+        for i in range(len(maxVals)):
+            maxPos = maxVals[i]
+            maxVal = newState[maxPos[0]][maxPos[1]]
+            if maxPos == (3-i, 3-i):
+                score += maxVal
+            elif maxPos[0] == 3-i or maxPos[1] == 3-i:
+                score += 0.5*maxVal
+            else:
+                score += 0.1* maxVal
+
+
+        score += 1000000*self.countMerge(state)
+        return score
+
+
+    def countMerge(self, state):
+        merges = 0
+        for x in range(3):
+            for y in range(3):
+                if state[x][y] == state[x + 1][y]:
+                    merges += 1
+                if state[x][y] == state[x - 1][y]:
+                    merges += 1
+                if state[x][y] == state[x][y + 1]:
+                    merges += 1
+                if state[x][y] == state[x][y - 1]:
+                    merges += 1
+        return merges
+
     def transition(self, state, action):
         score = 0
         mergeCount = 0
@@ -62,7 +101,7 @@ class Expectimax:
                     temp_list.append(state[start][row])
                     start += offset[0]
                 temp = self.merge(temp_list)
-                score += temp[1]
+                #score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -77,7 +116,7 @@ class Expectimax:
                     temp_list.append(state[start][row])
                     start += offset[0]
                 temp = self.merge(temp_list)
-                score += temp[1]
+                #score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -92,7 +131,7 @@ class Expectimax:
                     temp_list.append(state[col][start])
                     start += offset[1]
                 temp = self.merge(temp_list)
-                score += temp[1]
+                #score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
@@ -107,23 +146,13 @@ class Expectimax:
                     temp_list.append(state[col][start])
                     start += offset[1]
                 temp = self.merge(temp_list)
-                score += temp[1]
+                #score += temp[1]
                 temp_grid.append(temp[0])
             for row in range(4):
                 for col in range(4):
                     newState[row][col] = temp_grid[row][4 -1 -col]
 
-        newState = np.array(newState)
-        maxPos = np.argmax(newState)
-
-        pos = (maxPos/4, maxPos%4)
-
-        if pos == (3, 3):
-            score += 20.0*newState[pos[0]][pos[1]]
-        elif pos[0] == 3 or pos[1] == 3:
-            score += 10.0*newState[pos[0]][pos[1]]
-        else:
-            score += 5.0*newState[pos[0]][pos[1]]
+        score = self.getMoreScore(newState, score)
 
         return (newState, score) #resulting grid from transition
 
