@@ -3,6 +3,7 @@ import numpy as np
 import copy, util
 import pdb
 
+
 class Expectimax:
 
     def __init__(self):
@@ -67,7 +68,7 @@ class Expectimax:
                 score += 0.1* maxVal
 
 
-        score += 1000000*self.countMerge(state)
+        score += 10*self.countMerge(state)
         return score
 
 
@@ -214,51 +215,43 @@ class Expectimax:
     #    util.notDefined("Expectimax.getBest()")
 
 
+    def value(self, depth, state):
+        if self.isTerminal(state) or depth == self.depth * 2:
+            return (0, None)
+
+        # if the next state is the AI turn
+        if depth % 2 == 0:
+            return self.maxVal(depth, state)
+        # else the next state will be determined by a random addition
+        else:
+            return self.expVal(depth, state)
+
+
+    def maxVal(self, depth, state):
+        mVal = float("-inf")
+        bestAction = None
+
+        for action in self.getLegalActions(state):
+            child = self.transition(state, action)  # (newState, stateScore)
+            childScore = self.value((depth + 1), child[0])[0]
+            if childScore > mVal:
+                mVal = child[1]
+                bestAction = action
+
+        return (mVal, bestAction)
+
+
+
+    def expVal(self, depth, state):
+        p = 1 / float(len(self.getLegalActions(state)))
+        newState = self.posNewTile(state)
+        childScore = self.value((depth + 1), newState)[0]
+        v = p * childScore
+
+        return (childScore, None, newState)
+
     def getBest(self, state):
-        def value(depth, state):
-            if self.isTerminal(state) or depth == self.depth*2:
-                return (0, None)
-
-            # if the next state is the AI turn
-            if depth % 2 == 0:
-                return maxVal(depth, state)
-            # else the next state will be determined by a random addition
-            else:
-                return expVal(depth, state)
-
-
-        def maxVal(depth, state):
-            mVal = float("-inf")
-            bestAction = None
-
-            for action in self.getLegalActions(state):
-                child = self.transition(state, action)   # (newState, stateScore)
-                childScore = value((depth + 1), child[0])[0]
-                if childScore > mVal:
-                    mVal = child[1]
-                    bestAction = action
-
-            return (mVal, bestAction)
-
-        def expVal(depth, state):
-            """v = 0
-            p = 1/float(len(self.getLegalActions(state)))  # see multiAgents.py code for more explaination
-            bestAction = ""
-
-            for action in self.getLegalActions(state):
-                child = self.transition(state, action)
-                childScore = value((depth + 1), child[0])[0]
-
-                v+= p*childScore"""
-            p = 1/float(len(self.getLegalActions(state)))
-            newState = self.posNewTile(state)
-            childScore = value((depth +1), newState)[0]
-            v = p*childScore
-
-
-            return (childScore, None, newState)
-
-        return value(0, state)[1]   # This will be the best action returned from maxVal or expVal
+        return self.value(0, state)[1]   # This will be the best action returned from maxVal or expVal
 
     def isTerminal(self, state):
         numFree = self.getFreePositions(state)

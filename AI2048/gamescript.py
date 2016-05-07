@@ -47,6 +47,5 @@ while not agent.isTerminal(currentGameState):
         print "[+] Best Action:", bestAction
         #pdb.set_trace()
     currentGameState = game.getGameState()
-    if agent.isTerminal(lastGameState):
-        pdb.set_trace()
-        break
+    if np.array_equiv(lastGameState, currentGameState):
+        print "hmmmS"
