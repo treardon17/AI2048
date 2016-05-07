@@ -99,8 +99,8 @@
           <file leaf-file-name="Expectimax.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Expectimax.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="160">
-                  <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+                <state relative-caret-position="455">
+                  <caret line="209" column="33" selection-start-line="209" selection-start-column="33" selection-end-line="209" selection-end-column="33" />
                   <folding>
                     <element signature="e#0#13#0" expanded="true" />
                   </folding>
@@ -435,7 +435,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.10432034" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -909,8 +909,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Expectimax.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        <state relative-caret-position="455">
+          <caret line="209" column="33" selection-start-line="209" selection-start-column="33" selection-end-line="209" selection-end-column="33" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

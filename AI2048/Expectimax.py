@@ -50,14 +50,14 @@ class Expectimax:
     def getMoreScore(self, state, score):
         newState = np.array(state)
         maxVals = []
-        #score = 0.25*score
+        score = 2*score
         newState = np.fliplr(newState)
         newState = np.array([newState[3], newState[2], newState[1], newState[0]])
 
 
 
         #for x in range(3):
-        for x in range(1):
+        for x in range(3):
             pos = np.argmax(newState)
             maxVals.append((3-(pos % 4), 3-(pos / 4)))
             newState[pos/4][pos%4] = 0
